@@ -1,0 +1,73 @@
+#url of the apigateway server which is how the database is accessed. You cna find this by . . . .
+APIgatewayurl: "http://127.0.0.1:5000/"
+#url of the multimedia file server should just be base url 
+webserverurl: "http://localhost:8080/"
+#port rfid start and stop signals will be sent 
+rfidport: 65432
+# IP address that will be sending the start and stop signals 
+# if empty string the program will look at all IP addresses
+rfidhost: ""
+#list of RTSP urls for the cameras attached to the toolboxes
+# the placement of the url in the list should correspond to the toolbox number
+RTSP: 
+    - "drawer316_0_1.avi"
+    - "drawer316_1.avi"
+#list of labels of onnx classes
+#placement in list should correspond to the valuei n the return of te onnx file 
+onnxlabels:
+  - "crescent wrench"
+  - "flatheadSD"
+  - "hammer"
+  - "hand"
+  - "handsaw"
+  - "mallet"
+  - "philipsSD"
+  - "pliers"
+  - "ratchet"
+  - "shadowbox"
+  - "shadowboxTest"
+  - "socketset"
+  - "socketSolo"
+  - "tapemeasure"
+# list of tools that the onnx file has classes for, order does not matter
+onnxtools: 
+  - "crescent wrench"
+  - "flatheadSD"
+  - "hammer"
+  - "handsaw"
+  - "mallet"
+  - "philipsSD"
+  - "pliers"
+  - "ratchet"
+  - "socketset"
+  - "socketSolo"
+  - "tapemeasure"
+
+#list of non-tools that onnx has classes for, order does not matter
+onnxnontools: 
+  - "hands"
+  - "shadowbox"
+  - "shadowboxTest"
+#similarity threshold for template matching with drawer symbols and the symbol check function
+thresholdsymbol: .8
+#similarity threshold for template matching with the tools
+thresholdtool: .7
+#maximum rotation to try to findd the template match clockwise and counter clockwise
+degrees: 1
+#fraction of degree to rotate ie if 10 it will rotate a tenth of a degree uand template match until a match that meets
+# the threshold is found or it has reached the mximum amount of degrees 
+# making it 0 will result in an error
+degreesdiv: 5
+#file location of the onnx classifier after webserver base url
+onnxfile: "ClassifierInputData/hiline_class.onnx"
+# amount of tool that must be in frame to be considered visible 
+buffer: 0.2
+#how many pixels to exapns the horizontal start and end of the tool space in the images to be template matched by
+bufferx: 80
+#how many pixels to exapns the vertical start and end of the tool space in the images to be template matched by
+buffery: 10
+#ignore result of onnx file not matching threshold
+thresholdignoreonnx: .85
+thresholdadd: .1
+multfordrawersymbolbuffer: 20
+fps: 10
