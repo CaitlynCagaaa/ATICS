@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+  db:
+    image: mysql
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: navin
+
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
+
+  apache:
+    image: httpd
+
+    volumes:
+      - ./httpd.conf:/usr/local/apache2/httpd.conf
+      - ./Apache:/usr/local/apache2/htdocs
+
+    ports:
+      - "8080:80"
+      
+  app:
+    build: ./app
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - "5000:5000"

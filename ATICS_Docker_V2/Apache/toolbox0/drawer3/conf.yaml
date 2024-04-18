@@ -1,0 +1,50 @@
+# how are you turning it into a black and white photo to find countous
+# must be one of cv2 color conversion codes, and must turn it into grayscale
+# do not reccomend changing
+# allowed values are 6, 7, 10 and 11
+
+grayscale: 11
+
+#how much to blur iage, is used to reduce noise, must be odd between 1 and 31
+blur: 3
+
+# how is the program finding the threshold, aka how is it turning it into just white and black to find contours
+# must be one of cv2 thresholding varaibles
+# Reccomendations :if draw has dark barkground use THRESH_BINARY_INV, if light background use THRESH_BINARY
+#enum table: cv::ThresholdTypes {
+# cv::THRESH_BINARY = 0,
+#cv::THRESH_BINARY_INV = 1,
+#  cv::THRESH_TRUNC = 2,
+# cv::THRESH_TOZERO = 3,
+#  cv::THRESH_TOZERO_INV = 4,
+# cv::THRESH_MASK = 7,
+#  cv::THRESH_OTSU = 8,
+#  cv::THRESH_TRIANGLE = 16
+#}
+threshType: 0
+
+
+# the minumum value for thresholding, the larger the difference in grayscale betweeen the background and the object in 
+# the picture the bigger the value 
+# should be an interger between 0 and 256
+# do not recommend changing
+minThreshValue: 90
+
+# minimum number of pixels that make up the width of an object
+# increase to remove small non-objects
+# decrease to find small objects 
+minWidth: 30
+
+#minimum number of pixels that make up the height of an object
+# increase to remove small non-objects
+# decrease to find small objects
+minHeight: 30
+
+dincreasewhite: 1
+increaseblack: 2
+bufferX: 10
+bufferY: 10
+segment: 0
+symbolbuffer: .8
+
+
