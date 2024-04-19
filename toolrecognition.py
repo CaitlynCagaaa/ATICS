@@ -13,7 +13,7 @@ def update_tools_for_frames(frame, modframe, tools, errors, drawerLocation,times
     global con 
     global onnx
     onnx = classifier
-
+    
     con = configuration
     countours =drawer_segment(frame, drawerLocation)
     

@@ -78,7 +78,7 @@ def addEvent(url, eventType, eventToolID, eventTimestamp, eventDrawerLocation, e
         return False
     
 def getToolsInfo(url, toolsDrawerID):
-    print(toolsDrawerID)
+    #print(toolsDrawerID)
     params = {'drawer_id': toolsDrawerID}
     response = requests.get(url, params=params)
     return response.json()
@@ -86,7 +86,7 @@ def getToolsInfo(url, toolsDrawerID):
 def getDrawersInfo(url, drawerBoxNum):
     params = {'boxNum': drawerBoxNum}
     response = requests.get(url, params=params)
-    print(response.json())
+    #print(response.json())
     return response.json()
 
 def updateToolsInfo(url, checkedOut, toolID, drawerID):

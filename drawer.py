@@ -1,3 +1,14 @@
+""" module: automatedtoolbox ??
+    file: drawer.py ??
+    application: Automated tool box inventory control system 
+    language: python
+    computer: ????
+    opertaing system: windows subsystem  ubuntu
+    course: CPT_S 422
+    team: Null Terminators
+    author: Caitlyn Powers 
+    date: 4/17/24
+   """
 import cv2 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -8,7 +19,13 @@ import imutils
 
 gcon =open("Global_Config.yaml", "r")
 gcon =yaml.safe_load(gcon)
-
+"""
+    name:find_drawer
+    purpose: Controller fucntion for finding if a drawer is open or not.
+    operation: Loop over drawers and check if the drawer is open using the drawerSymbols. If a drawer is open
+    calculate the drawer location, and return the drawer, drawlocation, and a modified frame with debugging informaiton
+    for the -record mode.  
+"""
 def find_drawer(frame, drawers, record):
    #print("Enter find")
    modFrame=frame.copy()
@@ -22,12 +39,20 @@ def find_drawer(frame, drawers, record):
    #print("drawer done")
    return modFrame, None, None
 
+"""
+    name:drawer_location
+    purpose: Calculates the location of the drawer.
+    operation: It calculates the location of the drawer by finding the difference between where the 
+    drawer symobl is siipse to be and where it was found. The starting X location and the starting Y location of the 
+    drawer should be the same no matter what, so just subtract the difference from the width and height. Will 
+    draw a box around the drawer if -record mode is on.   
+"""
 def drawer_location(modFrame, place, similarirty, drawer, template, record):
   xDiff = template["X"]-place[0][0]
   yDiff = template["Y"]-place[0][1]
   wDiff = drawer["DrawerPixelWidth"]-xDiff
   hDiff = drawer["DrawerPixelHeight"]-yDiff 
-  #print(xDiff, yDiff)
+  #print(wDiff, hDiff)
   
   drawLocation = (drawer["DrawerStartX"],drawer["DrawerStartY"], wDiff,hDiff)
   #print(drawSize)
@@ -37,11 +62,20 @@ def drawer_location(modFrame, place, similarirty, drawer, template, record):
     modFrame = cv2.rectangle(modFrame, (drawLocation[0], drawLocation[1] - ht), (drawLocation[0] + wt, drawLocation[1]), (255, 0,0), 3)
     cv2.putText(modFrame, 'drawer '+ str(drawer["DrawerID"]) +" "+ str(round(similarirty,2))+'%', (drawLocation[0], drawLocation[1]),cv2.FONT_HERSHEY_SIMPLEX,.002*drawLocation[3], (36,255,12), 1)
     cv2.rectangle(modFrame, (drawLocation[0],drawLocation[1]), (drawLocation[2]+drawLocation[0], drawLocation[3]+drawLocation[1]), (256,256,256), 3)
-    cv2.imwrite("drawer.jpg",modFrame)
+    #cv2.imwrite("drawer.jpg",modFrame)
     #cv2.waitKey(0)
   return drawLocation
 
-
+"""
+    name:is_open
+    purpose: Checksi f drawer is open or not.
+    operation: Loops over templates which should be the drawerSymbols ( which is given as a string by the database)
+    grab image of symbol from the webserver and see if it can be found above the threshold. IF it can be found then
+    check if it is greater than the the similarity scores of the other symbols, and if it is in the correct area( check that
+    it is not being confised for a different symbol on the same drawer). If those are true then set that symbol and its
+    location as what will be returned. If in -record mode draw a blue box around the symbol if found and write what
+    symbol it is, the similarity score it got and the y starting point for the location, on the frame.
+"""
 def is_open(frame,modFrame, templates,record):
   
   placeMax =None
@@ -49,7 +83,7 @@ def is_open(frame,modFrame, templates,record):
   foundTemplate =None
   foundMax =False
   templates= json.loads(templates)
-  print(templates)
+  #print(templates)
   for template in templates:
      #print(template, "check")
      
@@ -61,7 +95,9 @@ def is_open(frame,modFrame, templates,record):
      #cv2.imshow("image",image)
      #cv2.waitKey(0)
      found,place,similarity = draw_temp(pic,frame, modFrame, frame_width, frame_height,(256,0,0), gcon.get("thresholdsymbol"),record,gcon.get("degrees"),gcon.get("degreesdiv"))
-     if found == True and similarity>similarityMax and template["Y"] -place[0][1] < gcon.get("buffery")*gcon.get("multfordrawersymbolbuffer"):
+     
+     if found == True and similarity>similarityMax and abs(template["Y"] -place[0][1]) < gcon.get("buffery")*gcon.get("multfordrawersymbolbuffer"):
+       #print(template["Y"] -place[0][1],gcon.get("buffery")*gcon.get("multfordrawersymbolbuffer"),place[0][1]- template["Y"])
        placeMax = place
        similarityMax = similarity
        foundTemplate =template
