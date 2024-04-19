@@ -111,7 +111,11 @@ def is_open(frame,modFrame, templates,record):
   #print("donetemplates")
   return foundMax, foundTemplate, placeMax, similarityMax
 
-
+"""
+    name:rotated_rect_with_max_area
+    purpose: Computes the width and height of the largest possible
+  axis-aligned rectangle (maximal area) within the rotated rectangle.
+    operation: """
 def rotated_rect_with_max_area(w, h, angle):
  # """https://stackoverflow.com/questions/16702966/rotate-image-and-crop-out-black-borders
   #Given a rectangle of size wxh that has been rotated by 'angle' (in
@@ -138,6 +142,10 @@ def rotated_rect_with_max_area(w, h, angle):
     wr,hr = (w*cos_a - h*sin_a)/cos_2a, (h*cos_a - w*sin_a)/cos_2a
 
   return wr,hr
+"""
+    name:rotate_max_area
+    purpose: Rotates image and crops it to the max area of the largest possible axis aligned rectangle.
+    operation: """
 def rotate_max_area(image, angle):
     """ image: cv2 image matrix object
         angle: in degree
@@ -153,7 +161,10 @@ def rotate_max_area(image, angle):
     x2 = x1 + int(wr)
     rotatedObject=rotated[y1:y2, x1:x2]
     return rotatedObject
-
+"""
+    name:rotate_bound
+    purpose: Rotates image by angle.
+    operation: """
 def rotate_bound(image, angle):
     # CREDIT: https://www.pyimagesearch.com/2017/01/02/rotate-images-correctly-with-opencv-and-python/
     # https://stackoverflow.com/questions/16702966/rotate-image-and-crop-out-black-borders
@@ -168,7 +179,13 @@ def rotate_bound(image, angle):
     M[1, 2] += (nH / 2) - cY
     return cv2.warpAffine(image, M, (nW, nH))
 
-
+"""
+    name:draw_temp
+    purpose: Template match the template to the frame.
+    operation: Loop over the degrees switching between ckockwise and counter clockwise, rotate by angle check that
+    template is not larger than frame, if it is crop it, try to template match if thier are still problems, ie ( one of 
+    the images was not retrieved properly) skip to next iteration of the loop return the best template match across all angles
+    if -record draw box around the best match"""
 def draw_temp(template, frame,modFrame, w, h, color1, threshold, draw,degrees,degreeDiv):
     found = False
     place =None

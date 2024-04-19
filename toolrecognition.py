@@ -1,3 +1,14 @@
+""" import name(module): automatedtoolbox
+    file: automatedtoolbox.py
+    application: Automated tool box inventory control system 
+    language: python
+    computer: ???? hardware
+    opertaing system: windows subsystem  ubuntu
+    course: CPT_S 422
+    team: Null Terminators
+    author: Caitlyn Powers 
+    date: 4/17/24
+   """
 import cv2 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -8,7 +19,14 @@ import copy
 import imutils
 gcon =open("Global_Config.yaml", "r")
 gcon =yaml.safe_load(gcon)
-
+"""
+    name:update_tools_for_frames
+    purpose:Contoller function for tool recogntion, basically is checking whether tools are checked in or out, and if thier are
+    any errors in the drawer, returns updated events and errors list.
+    operation:Segment drawer to find objects in drawer as countours , loop over list of tools checking if tool is visible, removing 
+    countours from the tool from the contours list, crop frame to be the current tools location, chekc tool
+    status , note tools status and the time after done looping check countours list for extra tools.
+"""
 def update_tools_for_frames(frame, modframe, tools, errors, drawerLocation,timestamp,drawer,configuration,classifier,userID, record):
     global con 
     global onnx
@@ -44,7 +62,12 @@ def update_tools_for_frames(frame, modframe, tools, errors, drawerLocation,times
     #print("exiting")
     #print(updatedTools)
     return updatedTools, updatedErrors
-
+"""
+    name:drawer_segment
+    purpose:Finds the objects in the drawer.
+    operation:Uses same drawer segmentation method as additionnalscript. If segment is -1 return empty list and program
+    will not report any extra tool errors.
+"""
 def drawer_segment(frame, drawerLocation):
     if(con.get("segment")) == -1:
         return []
@@ -58,6 +81,11 @@ def drawer_segment(frame, drawerLocation):
     sure_bg = cv2.dilate(opening,kernel,iterations=con.get("decreaseblack"))
     contours, hierarchy= cv2.findContours(sure_bg, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return contours
+"""
+    name:is_visible
+    purpose:Checks if tool is visible in the drawer.
+    
+"""
 def is_visible(tool,drawerLocation,drawer,buffer):
     toolLocation =calculate_location(tool,drawer,drawerLocation)
     #print(toolLocation[3]*toolLocation[2],tool["W"]*tool["H"]*buffer,buffer)
@@ -66,6 +94,11 @@ def is_visible(tool,drawerLocation,drawer,buffer):
     else:
         visible =False
     return toolLocation, visible
+"""
+    name:calculate_location
+    purpose: Calculates location of tool or error.
+
+"""
 def calculate_location(tool,drawer,drawerLocation):
     # i can't think it through right now 
     xDiff = drawer["DrawerPixelWidth"]-drawerLocation[2]
@@ -83,41 +116,39 @@ def calculate_location(tool,drawer,drawerLocation):
          #print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
     #print(toolSize)
     return toolLocation
+"""
+    name:remove_from_contours
+    purpose: Remove the countors that are in the same area as the tool from the list.
+    operation: Loop over countours and append countour ot new list if it is not in thte tools area. Use shapely library
+    to see if the contours are intersecting,inside, or encompass the tool area. 
+"""
 def remove_from_contours(contours, toolLocation,drawerLocation):
     tool  = Polygon([(toolLocation[0] -10,toolLocation[1]-10), (toolLocation[0] -10,toolLocation[1]+toolLocation[3]+10),(toolLocation[0]+toolLocation[2]+10,toolLocation[1]+toolLocation[3]+10), (toolLocation[0]+toolLocation[2]+10,toolLocation[1]-10)])
     contourss =[]
     for contour in contours:
         x,y,w,h = cv2.boundingRect(contour)
-        #if w >30 and h >30:
-            #crop = frame[drawerLocation[1]:drawerLocation[3]+drawerLocation[1], drawerLocation[0]:drawerLocation[2]+drawerLocation[0]].copy()
-            #image =cv2.drawContours(image=crop, contours=contour, contourIdx=-1, color=(0, 255, 0), thickness=5, lineType=cv2.LINE_AA)
-            #cv2.imshow("contours.jpg", image)
-            #print("ccccccccccccccccccccccccccccccccccccc")
-            #cv2.waitKey(0)
         cont  = Polygon([(x+drawerLocation[0],y+drawerLocation[1]), (x+drawerLocation[0],y+h+drawerLocation[1]),(x+w+drawerLocation[0],y+h+drawerLocation[1]), (x+w+drawerLocation[0],y+drawerLocation[1])])
-        #print(cont.area)
         if tool.buffer(1).intersects(cont) or tool.buffer(1).contains(cont) or cont.buffer(1).contains(tool):
-        #if toolLocation[0]-10 < x+drawerLocation[0] > toolLocation[0] + toolLocation[2]+10 and toolLocation[1]-10 < y+drawerLocation[1] > toolLocation[1] + toolLocation[3]+10 or cv2.pointPolygonTest(contour, (drawerLocation[0]-toolLocation[0],drawerLocation[1]-toolLocation[1]), False)== 1 or cv2.pointPolygonTest(contour, (drawerLocation[0] - toolLocation[0],drawerLocation[1] -toolLocation[1]), False)== 0:
             continue
-        #print("contour", cont, tool )
         contourss.append(contour) 
     return contourss
+"""
+    name:check_extra_tools
+    purpose:
+    operation:
+"""
 def check_extra_tools(tools,contours, errors, timeStamp, drawer,drawerLocation,frame,modFrame, classifier,userID, record) :
     #print(errors)
     updatedErrors = {"errors":[], "total": errors["total"]}
     crop = frame[drawerLocation[1]:drawerLocation[3]+drawerLocation[1], drawerLocation[0]:drawerLocation[2]+drawerLocation[0]].copy()
-    #image =cv2.drawContours(image=crop, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=5, lineType=cv2.LINE_AA)
-    #cv2.imwrite("contours.jpg", image)
     for contour in contours:
         x,y,w,h = cv2.boundingRect(contour)
         if w > con.get("minWidth") and h > con.get("minHeight"):
             image = crop[y:y+h,x:x+w,].copy()
-           # cv2.imshow("ch",image)
-            #cv2.waitKey(0)
+           
             cont  = Polygon([(x+drawerLocation[0],y+drawerLocation[1]), (x+drawerLocation[0],y+h+drawerLocation[1]),(x+w+drawerLocation[0],y+h+drawerLocation[1]), (x+w+drawerLocation[0],y+drawerLocation[1])])
             toolType = classifier_check(classifier, image) 
             if toolType in gcon['onnxtools']:
-                #print("tess", toolType)
                 
                 for error in errors["errors"]:
                     err  = Polygon([(error['ToolStartX'],error['ToolStartY']), (error['ToolStartX'],error['ToolPixelWidth']),(error['ToolPixelWidth'],error['ToolPixelHeight']), (error['ToolPixelWidth'],error['ToolStartY'])])
@@ -144,19 +175,20 @@ def check_extra_tools(tools,contours, errors, timeStamp, drawer,drawerLocation,f
                     elif check!=1:
                         errors["errors"].append({"ID": errors["total"], "ToolType": toolType,"EventType": 5, "ToolID":None,  "UserID": userID, "Timestamp":timeStamp ,"Location": drawer["DrawerID"], "ToolStartX": x+drawerLocation[0], "ToolStartY": y+drawerLocation[1], "ToolPixelWidth": x+w+drawerLocation[0], "ToolPixelHeight": y+h+drawerLocation[1]})  
                         errors["total"] =errors["total"] +1
-                        updatedErrors["total"] =errors["total"]
-                        
-                        
-                   
+                        updatedErrors["total"] =errors["total"]          
     for error in  errors["errors"]:
        location, visible = is_visible(error,drawerLocation,drawer, gcon.get("buffer"))
        if not visible:
             updatedErrors["errors"].append(error)
        elif error["ToolID"]!=None and [tool['error'] for tool in tools if tool['ToolID']==error["ToolID"]] ==1:
            updatedErrors["errors"].append(error)
-    #print("error" + str(updatedErrors))
-    #print("check")
+
     return updatedErrors
+"""
+    name:is_checked_out
+    purpose:
+    operation:
+"""
 def is_checked_out(image, modFrame, tool, toolLocation, threshold,thresholdSymbol, degrees, degreesDiv, errors, timeStamp,drawerID,symbolBuffer,userID,record):
     #print(tool)
     picno = imutils.url_to_image(gcon.get("webserverurl")+tool["ToolPictureWithoutPath"])
@@ -232,6 +264,11 @@ def is_checked_out(image, modFrame, tool, toolLocation, threshold,thresholdSymbo
         
     #print(errors) 
     return checkedOut
+"""
+    name:classifier_check
+    purpose:
+    operation:
+"""
 def classifier_check(classifier, image):
     normalized_image = cv2.normalize(image, None, 0, 1, cv2.NORM_MINMAX)
     classifier.setInput(cv2.dnn.blobFromImage(normalized_image, size=(224, 224), swapRB=False, crop=True))
@@ -248,6 +285,11 @@ def classifier_check(classifier, image):
     index = answer.item()
     #print(labels[index])
     return labels[index]
+"""
+    name:symbol_check
+    purpose:
+    operation:
+"""
 def symbol_check(symbolBuffer,tool, toolLocation, image, modFrame, threshold, degrees, degreesDiv, record):
     
     if tool["ToolSymbolAvailable"] ==True and toolLocation[1]*toolLocation[0]>=tool["ToolPixelWidth"]*tool["ToolPixelHeight"]*symbolBuffer:

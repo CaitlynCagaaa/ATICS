@@ -1,8 +1,8 @@
-""" module: automatedtoolbox ??
-    file: automatedtoolbox.py ??
+""" import name(module): automatedtoolbox
+    file: automatedtoolbox.py
     application: Automated tool box inventory control system 
     language: python
-    computer: ????
+    computer: ???? hardware
     opertaing system: windows subsystem  ubuntu
     course: CPT_S 422
     team: Null Terminators
@@ -30,7 +30,7 @@ import APIFunctions_1_1
 """
 """ 
   name: create_error_records
-  purpose: Make the error events and append them to the events list 
+  purpose: Make the error events and append them to the events list.
   
 """
 def create_error_records(events,errors):

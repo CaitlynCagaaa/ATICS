@@ -10,7 +10,7 @@ rfidhost: ""
 #list of RTSP urls for the cameras attached to the toolboxes
 # the placement of the url in the list should correspond to the toolbox number
 RTSP: 
-    - "drawer316_0_1.avi"
+    - "finaltesteingd1_1.avi"
     - "drawer316_1.avi"
 #list of labels of onnx classes
 #placement in list should correspond to the valuei n the return of te onnx file 
@@ -65,9 +65,12 @@ buffer: 0.2
 #how many pixels to exapns the horizontal start and end of the tool space in the images to be template matched by
 bufferx: 100
 #how many pixels to exapns the vertical start and end of the tool space in the images to be template matched by
-buffery: 10
+buffery: 20
 #ignore result of onnx file not matching threshold
 thresholdignoreonnx: .85
+#If the onnxclassifier  recognizes the image as a nontool add this much to the confidence interval of tool checked out to see if it is now greater than the tool checked in
 thresholdadd: .1
+#multiplied by buffery to calculate area in which the drawer symbol should be on the y axis
 multfordrawersymbolbuffer: 10
+#frames per second of the RTSP stream or given video
 fps: 10
