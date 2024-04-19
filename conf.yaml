@@ -21,14 +21,14 @@ blur: 3
 #  cv::THRESH_OTSU = 8,
 #  cv::THRESH_TRIANGLE = 16
 #}
-threshType: 0
+threshType: 1
 
 
 # the minumum value for thresholding, the larger the difference in grayscale betweeen the background and the object in 
 # the picture the bigger the value 
 # should be an interger between 0 and 256
 # do not recommend changing
-minThreshValue: 90
+minThreshValue: 110
 
 # minimum number of pixels that make up the width of an object
 # increase to remove small non-objects
@@ -42,8 +42,8 @@ minHeight: 30
 
 dincreasewhite: 1
 increaseblack: 2
-bufferX: 10
-bufferY: 10
+bufferX: 30
+bufferY: 30
 segment: 0
 symbolbuffer: .8
 

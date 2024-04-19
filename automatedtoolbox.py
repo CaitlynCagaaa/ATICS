@@ -1,8 +1,8 @@
-""" module: automatedtoolbox ??
-    file: automatedtoolbox.py ??
+""" import name(module): automatedtoolbox
+    file: automatedtoolbox.py
     application: Automated tool box inventory control system 
     language: python
-    computer: ????
+    computer: ???? hardware
     opertaing system: windows subsystem  ubuntu
     course: CPT_S 422
     team: Null Terminators
@@ -30,7 +30,7 @@ import APIFunctions_1_1
 """
 """ 
   name: create_error_records
-  purpose: Make the error events and append them to the events list 
+  purpose: Make the error events and append them to the events list.
   
 """
 def create_error_records(events,errors):
@@ -85,28 +85,69 @@ def print_records(events, toolboxID):
 """
     name: retrieve_drawers
     purpose: Retrieve drawers that are in the given toolbox from the database.
-    operation: Use APIgatewayurl from Global_Config.yaml to call a api function that retrives drawers from the database. 
+    operation: Schema and jsonschema.validate are used to determine if it is an error message. If it is not an error message 
+    a validation error should occur and it will return the drawers list.
+    Use APIgatewayurl from Global_Config.yaml to call a api function that retrives drawers from the database or returns an error messsage. 
 """
 def retrieve_drawers(toolBoxID):
+    schema = {
+        "type" : "object",
+        "properties" : {
+             "message" : {"type" : "string"},
+        },
+        "required": 
+             [
+                'message',
+                
+            ]
+
+    }
     url =gcon.get("APIgatewayurl")+"get_drawers_info"
     drawers=APIFunctions_1_1.getDrawersInfo(url,(toolBoxID))
-    return drawers
+    try:
+            jsonschema.validate(instance=drawers, schema=schema)
+            
+    except jsonschema.exceptions.ValidationError as err:
+         return drawers
+    raise RuntimeError(drawers['message'])
+    
 
 """
     name: retrieve_tools
     purpose: Retrieve the tools that are in the given drawer from the database.
-    operation: Use APIgatewayurl from Global_Config.yaml to call a api function that retrives tools from the database. 
-        Then loop over tools list and add information necessary to track tools between frames.
+    operation: Schema and jsonschema.validate are used to determine if it is an error message. If it is not an error message 
+    a validation error should occur and it will loop over tools list and add information necessary to track tools between frames, 
+    and then return the tools list. Use APIgatewayurl from Global_Config.yaml to call a api function that retrives
+     a list of the tools in the drawer or returns an error messsage.  
+       
 """
 
 def  retrieve_tools(drawerID):
+    schema = {
+        "type" : "object",
+        "properties" : {
+             "message" : {"type" : "string"},
+        },
+        "required": 
+             [
+                'message',
+                
+            ]
+
+    }
     url =gcon.get("APIgatewayurl")+"get_tools_info"
-    print(drawerID)
+    #print(drawerID)
     tools =APIFunctions_1_1.getToolsInfo(url,drawerID)
-    for tool in tools:
-        tool["timestamp"] = None
-        tool["error"] = 0 
-    return tools
+    try:
+            jsonschema.validate(instance=tools, schema=schema)
+            
+    except jsonschema.exceptions.ValidationError as err:
+        #print(tools)
+        for tool in tools:
+            tool["timestamp"] = None
+            tool["error"] = 0 
+        return tools
+    raise RuntimeError(tools['message'])
 
 """
     name: update_events
@@ -118,7 +159,7 @@ def update_events(events):
     url =gcon.get("APIgatewayurl")+"add_event"
     
     for event in events["events"]:
-      
+      #print(event)
       ret =  APIFunctions_1_1.addEvent(url, event["EventType"], event["ToolID"], str(event["Timestamp"]), event["Location"], event["UserID"], event["Notes"])
     return ret
 """
@@ -158,6 +199,11 @@ def wait_for_signal(hostIP,port):
              "toolbox" : {"type" : "number"},
              "UserID" : {"type" : "number"},
         },
+        "required": 
+             [
+                'toolbox',
+                'UserID',
+            ]
     }
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((hostIP, port))  
@@ -174,6 +220,7 @@ def wait_for_signal(hostIP,port):
                 try:
                  jsonschema.validate(instance=data, schema=schema)
                 except jsonschema.exceptions.ValidationError as err:
+                    data =None
                     continue
                 startTimeStamp = datetime.now()
                 break
@@ -182,16 +229,32 @@ def wait_for_signal(hostIP,port):
     
     return data, startTimeStamp, s
 
+"""
+    name:get_footage
+    purpose: Retrives the footage from the given rtspStream and saves it in the file location of savedFootage 
+    while waiting for the stop signal to be recived, from the reopened connection
+    operation: Expects a json of {"stop" : "", bool : true}, which will cause the program to stop getting footage. The connection is 
+    non-blocking so its not waiting for a conncection instead of getting footage. 
+"""
 def get_footage(rtspStream, savedFootage, s, startTimeStamp):
-        #print("get footage")
+        print("get footage")
         timestampFrame =startTimeStamp
         endTimeStamp =None
         data =None
-        schema = {"type" : ['object', 'boolean']
-             }
+        schema = { "type" : "object",
+        "properties" : {
+             "stop" : {"type" : "string"},
+             "bool" : {"type" : "boolean"},
+             },
+             "required": 
+             [
+                'stop',
+                'bool',
+            ]
+        }
         vid = cv2.VideoCapture(rtspStream) 
         if vid.isOpened():
-            print(vid.isOpened())
+            #print(vid.isOpened())
             frame_width = int(vid.get(3)) 
             frame_height = int(vid.get(4)) 
             size = (frame_width, frame_height) 
@@ -207,17 +270,20 @@ def get_footage(rtspStream, savedFootage, s, startTimeStamp):
                     s.setblocking(0)
                     try :
                         conn, addr = s.accept()
-                        print(conn)
+                        #print(conn)
                         conn.setblocking(0)
                         data = conn.recv(1024)
-                        print(data)
+                        #print(data)
                         data = json.loads(data.decode('utf-8'))
                     except BlockingIOError:
                         pass
                     if data !=None:
                         try:
                             jsonschema.validate(instance=data, schema=schema)
-                            print("check")
+                            #print(data)
+                            if data["bool"] ==False:
+                                data =None
+                                continue
                         except jsonschema.exceptions.ValidationError as err:
                             data =None
                             continue
@@ -225,7 +291,7 @@ def get_footage(rtspStream, savedFootage, s, startTimeStamp):
                         #print(endTimeStamp)
                         #print(timestampFrame)
                         stopNotRecv = False
-                        data =None
+                        
                 ret, frame = vid.read() 
                 if ret == False:
                     continue
@@ -233,7 +299,7 @@ def get_footage(rtspStream, savedFootage, s, startTimeStamp):
                 timestampFrame = timestampFrame +timedel
                 result.write(frame)
         else:
-             raise FileNotFoundError("unable to open RTSP stream " + rtspStream )
+             raise FileNotFoundError("Unable to open RTSP stream " + rtspStream )
         vid.release()
         savedVideo = cv2.VideoCapture(savedFootage) 
         s.close()
@@ -243,7 +309,19 @@ def get_footage(rtspStream, savedFootage, s, startTimeStamp):
                     
     
     
-
+"""
+    name:main
+    purpose: This is the controller function for the program.
+    operation: At program start up it gets the command line arguments. If -record it saves a video with debugginf information. If -test 
+    it will take a video and after it is done parsing the video, it will not update the database, although it will still retrieve the tools and 
+    drawers form the database for the toolbox number that is asked for by user input. After checking that the video it is processing the frames of is open
+    it will retrive the drawers for the gven toolbox and then it will enter a infinite while loop that is processing the frames of the video
+    to see if a drawer has been opened or closed and if tools have been checked in or out, or if thier is some kind of error in the drawer. 
+    The try except statements general behavior is to catch the error from the try make a event for it print out the events or push the events to
+    the database then either go back to waiting for the next signal or close the program depedning on the mode and where the error is coming from. 
+    Form ore information go to the documentation. 
+    
+"""
 def main():
  ap = argparse.ArgumentParser()
  ap.add_argument("-test", "--test",type=str, required=False,
@@ -254,7 +332,6 @@ def main():
  events = {"events":[],"total": 0}
  errors = {"errors":[], "total": 0}
  tools = None
- drawerWasOpen =0
  lastDrawer= None
  try:
     while(True):
@@ -266,6 +343,7 @@ def main():
             data = {"toolbox": toolBoxID, "UserID": 0}
             
         else:
+            test = False
             data, startTimeStamp, s = wait_for_signal(gcon.get("rfidhost"),gcon.get("rfidport")) 
             rtsp = gcon.get("RTSP")
             try:
@@ -280,7 +358,7 @@ def main():
                 continue
             events["events"].append({"ID": events["total"], "EventType": 7, "ToolID": None, "UserID": data["UserID"], "Timestamp":startTimeStamp ,"Location": None,"Notes": "Logged into toolbox "+ str(data["toolbox"]) })
             events["total"] =events["total"]+1
-            test = False
+            
         if args.record:
             #print("recording")
             os.makedirs(str(startTimeStamp.month), exist_ok = True) 
@@ -319,8 +397,8 @@ def main():
                         events["events"].append({"ID": events["total"], "EventType": 0, "ToolID": None, "UserID": data["UserID"], "Timestamp":timestampFrame ,"Location": currentDrawer["DrawerID"], "Notes":None})
                         events["total"] =events["total"]+1
                         try:
-                            print(currentDrawer["DrawerID"])
-                            tools = retrieve_tools(currentDrawer["DrawerID"],data["toolbox"])
+                            #print(currentDrawer["DrawerID"])
+                            tools = retrieve_tools(currentDrawer["DrawerID"])
                         except Exception as err :
                             events["events"].append({"ID": events["total"], "EventType": 6, "ToolID": None, "UserID": data["UserID"], "Timestamp":startTimeStamp ,"Location": None,"Notes": "Closing program, Error in retriving tools: " +str(err)})
                             events["total"] =events["total"]+1
@@ -352,7 +430,7 @@ def main():
                         newtools =None
                         tools = None
                         errors = {"errors":[],"total": errors["total"]}
-                    if currentDrawer!=None:
+                    if currentDrawer!=None and drawerSize[2]>0:
                         response = requests.get(gcon.get("webserverurl")+gcon.get("onnxfile"), allow_redirects=True)
                         content = response.content
                         net =  cv2.dnn.readNetFromONNX(content) 
@@ -412,7 +490,7 @@ def main():
                 errors = {"errors":[], "total": 0}
                 continue  
  except Exception as err :
-                    events["events"].append({"ID": events["total"], "EventType": 6, "ToolID": None, "UserID": data["UserID"], "Timestamp":startTimeStamp ,"Location": None,"Notes": "Closing program: " +str(err)})
+                    events["events"].append({"ID": events["total"], "EventType": 6, "ToolID": None, "UserID": None, "Timestamp":datetime.now() ,"Location": None,"Notes": "Closing program: " +str(err)})
                     events["total"] =events["total"]+1
                     if test:
                         print_records(events,data["toolbox"])

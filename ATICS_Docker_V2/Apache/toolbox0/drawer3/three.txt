@@ -1,0 +1,58 @@
+45shadowbox/45_fishsp_3.avi
+True
+Opened: Toolbox 0 Drawer 0: 2024-04-10 00:21:30.477504 1
+error:extra toolNone 2024-04-10 00:21:30.610838 1 0 crescent wrench1409529
+error:wrong tool2 2024-04-10 00:21:30.477504 1 0 socketSolo13341686
+error:wrong tool7 2024-04-10 00:21:30.477504 1 0 crescent wrench13341476
+error:wrong tool9 2024-04-10 00:21:30.477504 1 0 crescent wrench13341305
+Closed: Toolbox 0 Drawer 0: 2024-04-10 00:21:30.677505 1
+Opened: Toolbox 0 Drawer 0: 2024-04-10 00:21:30.877506 1
+error:wrong tool2 2024-04-10 00:21:30.877506 1 0 crescent wrench13341686
+Closed: Toolbox 0 Drawer 0: 2024-04-10 00:21:31.010840 1
+Opened: Toolbox 0 Drawer 0: 2024-04-10 00:21:31.144174 1
+error:extra toolNone 2024-04-10 00:21:32.410847 1 0 socketSolo17401166
+error:wrong tool2 2024-04-10 00:21:31.144174 1 0 crescent wrench13341686
+Closed: Toolbox 0 Drawer 0: 2024-04-10 00:21:32.477514 1
+Opened: Toolbox 0 Drawer 0: 2024-04-10 00:21:32.610848 1
+error:extra toolNone 2024-04-10 00:21:32.610848 1 0 crescent wrench1531519
+error:wrong tool2 2024-04-10 00:21:32.610848 1 0 hand13341687
+error:wrong tool7 2024-04-10 00:21:32.610848 1 0 crescent wrench13341477
+error:wrong tool9 2024-04-10 00:21:32.610848 1 0 crescent wrench13341306
+Closed: Toolbox 0 Drawer 0: 2024-04-10 00:21:32.677515 1
+Opened: Toolbox 0 Drawer 0: 2024-04-10 00:21:33.544186 1
+error:extra toolNone 2024-04-10 00:21:33.544186 1 0 pliers1525513
+error:wrong tool2 2024-04-10 00:21:33.544186 1 0 socketSolo13341687
+error:wrong tool7 2024-04-10 00:21:33.544186 1 0 crescent wrench13341477
+error:wrong tool9 2024-04-10 00:21:33.544186 1 0 crescent wrench13341306
+CheckOut:2 2024-04-10 00:21:33.677520 1 0
+Closed: Toolbox 0 Drawer 0: 2024-04-10 00:21:33.744187 1
+Opened: Toolbox 0 Drawer 0: 2024-04-10 00:21:34.077522 1
+error:extra toolNone 2024-04-10 00:21:34.477524 1 0 crescent wrench1532519
+error:wrong tool2 2024-04-10 00:21:34.077522 1 0 crescent wrench13341687
+error:wrong tool7 2024-04-10 00:21:34.077522 1 0 crescent wrench13341477
+error:wrong tool9 2024-04-10 00:21:34.077522 1 0 crescent wrench13341306
+error:wrong tool2 2024-04-10 00:21:34.410857 1 0 crescent wrench13341687
+CheckOut:2 2024-04-10 00:21:34.144189 1 0
+Closed: Toolbox 0 Drawer 0: 2024-04-10 00:21:34.544191 1
+Opened: Toolbox 0 Drawer 0: 2024-04-10 00:21:35.410862 1
+error:extra toolNone 2024-04-10 00:21:35.477529 1 0 tapemeasure15031134
+error:extra toolNone 2024-04-10 00:21:35.544196 1 0 socketSolo15061061
+error:wrong tool2 2024-04-10 00:21:35.410862 1 0 crescent wrench13341687
+error:wrong tool7 2024-04-10 00:21:35.410862 1 0 socketSolo13341477
+error:wrong tool9 2024-04-10 00:21:35.410862 1 0 socketSolo13341306
+Closed: Toolbox 0 Drawer 0: 2024-04-10 00:21:35.610863 1
+Opened: Toolbox 0 Drawer 0: 2024-04-10 00:21:35.944198 1
+error:extra toolNone 2024-04-10 00:21:40.344220 1 0 crescent wrench1362933
+error:wrong tool2 2024-04-10 00:21:36.810869 1 0 crescent wrench13341687
+error:wrong tool7 2024-04-10 00:21:40.344220 1 0 crescent wrench13341477
+error:wrong tool9 2024-04-10 00:21:40.344220 1 0 crescent wrench13341306
+CheckOut:2 2024-04-10 00:21:35.944198 1 0
+CheckOut:7 2024-04-10 00:21:40.277553 1 0
+Closed: Toolbox 0 Drawer 0: 2024-04-10 00:21:40.410887 1
+Opened: Toolbox 0 Drawer 0: 2024-04-10 00:21:40.477554 1
+error:wrong tool2 2024-04-10 00:21:41.010890 1 0 crescent wrench13341687
+error:wrong tool7 2024-04-10 00:21:44.010905 1 0 crescent wrench13341477
+error:wrong tool9 2024-04-10 00:21:44.344240 1 0 crescent wrench13341308
+CheckOut:2 2024-04-10 00:21:40.477554 1 0
+CheckOut:7 2024-04-10 00:21:40.477554 1 0
+Closed: Toolbox 0 Drawer 0: 2024-04-10 00:21:44.477574 1

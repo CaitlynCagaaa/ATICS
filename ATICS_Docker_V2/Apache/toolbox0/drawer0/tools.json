@@ -1,0 +1,7 @@
+{"Tools": [
+{"ID": 1, "Name": "black plier", "ToolType": "pliers", "ClassifierThinks": null, "Location": 0, "Who": null, "IDAvail": true, "IDMark": "drawer0/tool_1_2_symbol.jpg", "CheckedOut": false, "X": 1426, "Y": 1723, "W": 268, "H": 159, "picfull": "drawer0/tool_1_2.jpg", "picnull": "drawer0/tool_1_1.jpg", "Manual": true},
+{"ID": 2, "Name": "red plier", "ToolType": "pliers", "ClassifierThinks": null, "Location": 0, "Who": null, "IDAvail": true, "IDMark": "drawer0/tool_2_2_symbol.jpg", "CheckedOut": false, "X": 1829, "Y": 1608, "W": 472, "H": 98, "picfull": "drawer0/tool_2_2.jpg", "picnull": "drawer0/tool_2_1.jpg", "Manual": false},
+{"ID": 3, "Name": "hammer", "ToolType": "hammer", "ClassifierThinks": "hammer", "Location": 0, "Who": null, "IDAvail": true, "IDMark": "drawer0/tool_3_2_symbol.jpg", "CheckedOut": false, "X": 1437, "Y": 1405, "W": 828, "H": 140, "picfull": "drawer0/tool_3_2.jpg", "picnull": "drawer0/tool_3_1.jpg", "Manual": true},
+{"ID": 5, "Name": "mallet", "ToolType": "Mallets", "ClassifierThinks": null, "Location": 0, "Who": null, "IDAvail": true, "IDMark": "drawer0/tool_5_symbol.jpg", "CheckedOut": false, "X": 1580, "Y": 1065, "W": 661, "H": 167, "picfull": "drawer0/tool_5_2.jpg", "picnull": "drawer0/tool_5_1.jpg", "Manual": false}
+
+]}
