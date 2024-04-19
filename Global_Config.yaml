@@ -53,21 +53,21 @@ thresholdsymbol: .8
 #similarity threshold for template matching with the tools
 thresholdtool: .7
 #maximum rotation to try to findd the template match clockwise and counter clockwise
-degrees: 1
+degrees: 0
 #fraction of degree to rotate ie if 10 it will rotate a tenth of a degree uand template match until a match that meets
 # the threshold is found or it has reached the mximum amount of degrees 
 # making it 0 will result in an error
-degreesdiv: 5
+degreesdiv: 1
 #file location of the onnx classifier after webserver base url
 onnxfile: "ClassifierInputData/hiline_class.onnx"
 # amount of tool that must be in frame to be considered visible 
 buffer: 0.2
 #how many pixels to exapns the horizontal start and end of the tool space in the images to be template matched by
-bufferx: 80
+bufferx: 100
 #how many pixels to exapns the vertical start and end of the tool space in the images to be template matched by
 buffery: 10
 #ignore result of onnx file not matching threshold
 thresholdignoreonnx: .85
 thresholdadd: .1
-multfordrawersymbolbuffer: 20
+multfordrawersymbolbuffer: 10
 fps: 10
