@@ -1,3 +1,14 @@
+""" module: additonalscript
+    file: additonalscript.py 
+    application: Automated tool box inventory control system additional script
+    language: python
+    computer: ROG Flow Z13 GZ301ZE_GZ301ZE
+    opertaing system: windows subsystem  ubuntu
+    course: CPT_S 422
+    team: Null Terminators
+    author: Caitlyn Powers 
+    date: 4/17/24
+   """
 import json
 import yaml
 import cv2
@@ -6,6 +17,17 @@ import argparse
 import numpy as np
 from matplotlib import pyplot as plt
 
+"""
+    name:additionalscript 
+    purpose: Create initial drawer and tool json’s of drawer using thresholding and image segmentation, 
+        help determine the appropriate drawer configuration file settings, 
+        and create some of the necessary template images 
+    operation:  It is expected that the person using this script double checks the values it gives,
+        to ensure it did not miss tools or create extra tools, and to change the file locations
+        of the templates and ocnfiguration file to match what they are when they are moved onto webserver.
+        To faciltate this the tools.json has an extra comma.
+
+"""
 ap = argparse.ArgumentParser()
 ap.add_argument("parse",type=str,
 help="file location of image to threshod and grab data from", default=None)
@@ -39,21 +61,21 @@ os.makedirs("drawer", exist_ok = True)
 #cv2.imshow("norm", normalized_image)
 gray = cv2.cvtColor(image,con.get('grayscale'))
 gray=cv2.medianBlur(gray,con.get('blur'))
-cv2.imshow("blurring", gray)
+#cv2.imshow("blurring", gray)
 #normalized_image = cv2.normalize(image, None, 0, 1, cv2.NORM_MINMAX)
 
 ret, thresh = cv2.threshold(gray,con.get('minThreshValue'),255,con.get('threshType') )
 #thresh = cv2.bitwise_not(thresh) 
-cv2.imwrite("Thresholded.jpg", thresh)
+#cv2.imwrite("Thresholded.jpg", thresh)
 
 kernel = np.ones((3,3),np.uint8)
-cv2.imshow("kernel", kernel)
+#cv2.imshow("kernel", kernel)
 opening = cv2.morphologyEx(thresh,cv2.MORPH_OPEN,kernel, iterations = con.get("increasewhite"))
-cv2.imshow("decrease white", opening)
+#cv2.imshow("decrease white", opening)
 # sure background area
 
 sure_bg = cv2.dilate(opening,kernel,iterations=con.get("decreaseblack"))
-cv2.imshow("increase white", sure_bg)
+#cv2.imshow("increase white", sure_bg)
 # Finding sure foreground area
 #dist_transform = cv2.distanceTransform(thresh,cv2.DIST_L1,0)
 #cv2.imshow("I", dist_transform)
@@ -63,7 +85,7 @@ contours, hierarchy= cv2.findContours(sure_bg, cv2.RETR_TREE, cv2.CHAIN_APPROX_S
 #print(hierarchy)
 res_cpy = result.copy()
 cv2.drawContours(image=res_cpy, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=5, lineType=cv2.LINE_AA)
-print(hierarchy)
+#print(hierarchy)
 #cv2.imshow("contours", image)
 #contours = contours[0] if len(contours) == 2 else contours[1]
 check = 1
@@ -85,7 +107,7 @@ with open("drawer"+'/tools.json', 'w') as f:
                 w = w +2*con.get('bufferX')
             if h+con.get('bufferY')< image.shape[1]:
                 h = h + 2*con.get('bufferY')
-            print("1")
+            #print("1")
             with open("drawer"+'/drawer.json', 'w') as d:
              
              #make bounding pictures
@@ -118,7 +140,7 @@ with open("drawer"+'/tools.json', 'w') as f:
              cv2.imwrite("drawer"+'/drawer_2.jpg',cropped_image2)
             
     else:
-        print("2")
+        #print("2")
         x,y,w,h = cv2.boundingRect(contours[i])
         if w > con.get('minWidth') and h >con.get('minHeight'):
             if x-con.get('bufferX')> 0:
@@ -165,7 +187,7 @@ with open("drawer"+'/tools.json', 'w') as f:
 cv2.imwrite("drawer"+'/imgbounded1.jpg',result)
 cv2.imwrite("drawer"+'/imgbounded2.jpg',result2)
 #result =cv2.resize(result,None,.75,.75)
-cv2.imshow("bounding boxes", result)
+#cv2.imshow("bounding boxes", result)
 # Wait for the user to press a key
 cv2.waitKey(0)
 cv2.destroyAllWindows()

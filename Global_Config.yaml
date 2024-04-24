@@ -1,7 +1,7 @@
 #url of the apigateway server which is how the database is accessed. You cna find this by . . . .
 APIgatewayurl: "http://127.0.0.1:5000/"
 #url of the multimedia file server should just be base url 
-webserverurl: "http://localhost:8080/"
+webserverurl: "http://172.19.0.1:8080/"
 #port rfid start and stop signals will be sent 
 rfidport: 65432
 # IP address that will be sending the start and stop signals 
@@ -10,7 +10,7 @@ rfidhost: ""
 #list of RTSP urls for the cameras attached to the toolboxes
 # the placement of the url in the list should correspond to the toolbox number
 RTSP: 
-    - "finaltesteingd1_1.avi"
+    - "rtsp://admin:NullTerminat0r2%24@192.168.0.17/onvif1"
     - "drawer316_1.avi"
 #list of labels of onnx classes
 #placement in list should correspond to the valuei n the return of te onnx file 
@@ -60,13 +60,15 @@ degrees: 0
 degreesdiv: 1
 #file location of the onnx classifier after webserver base url
 onnxfile: "ClassifierInputData/hiline_class.onnx"
-# amount of tool that must be in frame to be considered visible 
+# amount of tool that must be in frame to be considered visible should be form 0 to 1
 buffer: 0.2
 #how many pixels to exapns the horizontal start and end of the tool space in the images to be template matched by
+# Should be at a minimium the number of pixels that makes up the x direction of the side of the drawer between the
+# drawer symbols and the shadow box of the drawer.
 bufferx: 100
-#how many pixels to exapns the vertical start and end of the tool space in the images to be template matched by
+#how many pixels to exapand the vertical start and end of the tool space in the images to be template matched by
 buffery: 20
-#ignore result of onnx file not matching threshold
+#If similarity above this number ignore result of onnx file not matching tool type
 thresholdignoreonnx: .85
 #If the onnxclassifier  recognizes the image as a nontool add this much to the confidence interval of tool checked out to see if it is now greater than the tool checked in
 thresholdadd: .1

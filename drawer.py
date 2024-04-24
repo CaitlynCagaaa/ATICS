@@ -1,8 +1,8 @@
-""" module: automatedtoolbox ??
-    file: drawer.py ??
+""" module: drawer 
+    file: drawer.py 
     application: Automated tool box inventory control system 
     language: python
-    computer: ????
+    computer: ROG Flow Z13 GZ301ZE_GZ301ZE
     opertaing system: windows subsystem  ubuntu
     course: CPT_S 422
     team: Null Terminators
