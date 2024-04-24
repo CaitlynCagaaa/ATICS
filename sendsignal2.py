@@ -1,6 +1,21 @@
+""" module: sendsignal2
+    file: sendsignal2.py 
+    application: Automated tool box inventory control system helper script
+    language: python
+    computer: ROG Flow Z13 GZ301ZE_GZ301ZE
+    opertaing system: windows subsystem  ubuntu
+    course: CPT_S 422
+    team: Null Terminators
+    author: Caitlyn Powers 
+    date: 4/17/24
+   """
 import socket
 import json
-import time
+"""
+    name:sendsignal2 
+    purpose: Send stop signal to the automatedtoolbox program. 
+    operation: Everything is hardcoded since this script was just made for testing. 
+"""
 
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 PORT = 65432  # Port to listen on (non-privileged ports are > 1023)

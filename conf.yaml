@@ -40,11 +40,22 @@ minWidth: 30
 # decrease to find small objects
 minHeight: 30
 
+#how many iterations to increase white area by should be between 0 and 5
 dincreasewhite: 1
+#how many iterations to increase black area by should be between 0 and 5
 increaseblack: 2
+#How many pixels to expand the horizontal start and end of the template by
 bufferX: 30
+#How many pixels to expand the vertical start and end of the template by
 bufferY: 30
+#determines what picture to use drawer segmentation on
+#-1 turn off drawer segmentation in automatedtoolbox program
+#0 used tools in drawer picture for additional script segmentation
+#1 used no tools in drawer picture for additional script segmentation
+
 segment: 0
+#The amount of the tool that must be visible for the program to check for the symbol.
+
 symbolbuffer: .8
 
 

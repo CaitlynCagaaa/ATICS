@@ -2,7 +2,7 @@
     file: automatedtoolbox.py
     application: Automated tool box inventory control system 
     language: python
-    computer: ???? hardware
+    computer: ROG Flow Z13 GZ301ZE_GZ301ZE
     opertaing system: windows subsystem  ubuntu
     course: CPT_S 422
     team: Null Terminators
@@ -68,17 +68,16 @@ def print_records(events, toolboxID):
             print("Opened: Toolbox " + str(toolboxID) + " Drawer "+ str(event["Location"]) + ": " + str(event["Timestamp"]) + " " + str(event["UserID"]))
         elif event["EventType"] == 1:
             print("Closed: Toolbox " + str(toolboxID) + " Drawer "+ str(event["Location"] )+ ": " + str(event["Timestamp"]) + " " + str(event["UserID"]))
-        
         elif event["EventType"] == 2: #<Tool identifier> <employee id> <time>  <location>
-            print("Tool Checked Out:\n\t"  + str(event["ToolID"]) +" " + str(event["Timestamp"]) + " " + str(event["UserID"]) + " " + str(event["Location"] ))
+            print("Tool Checked Out:\n\t"  + str(event["ToolID"]) +" " +  str(event["UserID"]) + " " + str(event["Timestamp"])+ " " + str(event["Location"] ))
         elif event["EventType"] == 3:   
-            print("Tool Check In:\n\t"  + str(event["ToolID"]) +" " + str(event["Timestamp"]) + " " + str(event["UserID"]) + " " + str(event["Location"] ))  
+            print("Tool Check In:\n\t"  + str(event["ToolID"]) +" " +   str(event["UserID"]) + " " + str(event["Timestamp"])+ " " + str(event["Location"] ))  
         elif event["EventType"] == 4:  #<error type> <tool identifier> <employee id> <time> <location> 
-            print("Error:\n\t"  +"wrong tool" + str(event["ToolID"]) +" " + str(event["Timestamp"]) + " " + str(event["UserID"]) + " " + str(event["Location"]) + " " +str(event["Notes"]))
+            print("Error:\n\t"  +"Wrong tool " + str(event["ToolID"]) +" " +   str(event["UserID"]) + " " + str(event["Timestamp"])+ " " + str(event["Location"]) + " " +str(event["Notes"]))
         elif event["EventType"] == 5:   
-            print("Error:\n\t"  +"extra tool" + str(event["ToolID"]) +" " + str(event["Timestamp"]) + " " + str(event["UserID"]) + " " + str(event["Location"]) + " " +str(event["Notes"]))
+            print("Error:\n\t"  +"Extra tool " + str(event["ToolID"]) +" " +   str(event["UserID"]) + " " + str(event["Timestamp"]) + " " + str(event["Location"]) + " " +str(event["Notes"]))
         elif event["EventType"] == 6:   
-            print("Error:\n\t"  + "runtime error" + str(event["ToolID"]) +" " + str(event["Timestamp"]) + " " + str(event["UserID"]) + " " + str(event["Location"]) + " " +str(event["Notes"]))      
+            print("Error:\n\t"  + "Runtime error " + str(event["ToolID"]) +" " +   str(event["UserID"]) + " " + str(event["Timestamp"]) + " " + str(event["Location"]) + " " +str(event["Notes"]))      
 
     return
 

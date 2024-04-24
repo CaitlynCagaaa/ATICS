@@ -1,8 +1,8 @@
-""" import name(module): automatedtoolbox
-    file: automatedtoolbox.py
+""" import name(module): toolrecognition
+    file: toolrecognition.py
     application: Automated tool box inventory control system 
     language: python
-    computer: ???? hardware
+    computer: ROG Flow Z13 GZ301ZE_GZ301ZE
     opertaing system: windows subsystem  ubuntu
     course: CPT_S 422
     team: Null Terminators
@@ -24,8 +24,8 @@ gcon =yaml.safe_load(gcon)
     purpose:Contoller function for tool recogntion, basically is checking whether tools are checked in or out, and if thier are
     any errors in the drawer, returns updated events and errors list.
     operation:Segment drawer to find objects in drawer as countours , loop over list of tools checking if tool is visible, removing 
-    countours from the tool from the contours list, crop frame to be the current tools location, chekc tool
-    status , note tools status and the time after done looping check countours list for extra tools.
+        countours from the tool from the contours list, crop frame to be the current tools location, chekc tool
+        status , note tools status and the time after done looping check countours list for extra tools.
 """
 def update_tools_for_frames(frame, modframe, tools, errors, drawerLocation,timestamp,drawer,configuration,classifier,userID, record):
     global con 
@@ -66,7 +66,7 @@ def update_tools_for_frames(frame, modframe, tools, errors, drawerLocation,times
     name:drawer_segment
     purpose:Finds the objects in the drawer.
     operation:Uses same drawer segmentation method as additionnalscript. If segment is -1 return empty list and program
-    will not report any extra tool errors.
+        will not report any extra tool errors.
 """
 def drawer_segment(frame, drawerLocation):
     if(con.get("segment")) == -1:
@@ -120,7 +120,7 @@ def calculate_location(tool,drawer,drawerLocation):
     name:remove_from_contours
     purpose: Remove the countors that are in the same area as the tool from the list.
     operation: Loop over countours and append countour ot new list if it is not in thte tools area. Use shapely library
-    to see if the contours are intersecting,inside, or encompass the tool area. 
+        to see if the contours are intersecting,inside, or encompass the tool area. 
 """
 def remove_from_contours(contours, toolLocation,drawerLocation):
     tool  = Polygon([(toolLocation[0] -10,toolLocation[1]-10), (toolLocation[0] -10,toolLocation[1]+toolLocation[3]+10),(toolLocation[0]+toolLocation[2]+10,toolLocation[1]+toolLocation[3]+10), (toolLocation[0]+toolLocation[2]+10,toolLocation[1]-10)])
@@ -134,8 +134,9 @@ def remove_from_contours(contours, toolLocation,drawerLocation):
     return contourss
 """
     name:check_extra_tools
-    purpose:
-    operation:
+    purpose: Checks for extra tools in the drawer.
+    operation: Loop over contours, to see if they are an actual tool or if the contour is something else. Then in the same loop
+        loop over errors to filter out repeat errors.
 """
 def check_extra_tools(tools,contours, errors, timeStamp, drawer,drawerLocation,frame,modFrame, classifier,userID, record) :
     #print(errors)
@@ -186,8 +187,10 @@ def check_extra_tools(tools,contours, errors, timeStamp, drawer,drawerLocation,f
     return updatedErrors
 """
     name:is_checked_out
-    purpose:
-    operation:
+    purpose: Determine if tool is checked in or out.
+    operation: Uses template matching to determine if tool is checked in or out, if it is not checked out it checks for
+        wrong tool by looking ofr the tool symbol and determining the type of tool. If it looksl ike a nontool it increases the
+        similarity of the tool checked out and tests if it is tool checked out again. 
 """
 def is_checked_out(image, modFrame, tool, toolLocation, threshold,thresholdSymbol, degrees, degreesDiv, errors, timeStamp,drawerID,symbolBuffer,userID,record):
     #print(tool)
@@ -266,8 +269,8 @@ def is_checked_out(image, modFrame, tool, toolLocation, threshold,thresholdSymbo
     return checkedOut
 """
     name:classifier_check
-    purpose:
-    operation:
+    purpose: Determines if the tool is the right tool type. 
+    operation: Uses the onnx file to check what tool type it is.
 """
 def classifier_check(classifier, image):
     normalized_image = cv2.normalize(image, None, 0, 1, cv2.NORM_MINMAX)
@@ -287,8 +290,8 @@ def classifier_check(classifier, image):
     return labels[index]
 """
     name:symbol_check
-    purpose:
-    operation:
+    purpose: Determine if symbol is on the tool.
+    operation: If no tool symbol is availble or the tool symbol shouldn't be visible by this point it returns true. 
 """
 def symbol_check(symbolBuffer,tool, toolLocation, image, modFrame, threshold, degrees, degreesDiv, record):
     
