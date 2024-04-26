@@ -13,7 +13,7 @@ import torch.onnx
 import multiprocessing
 
 # Define the root directory where your data is stored.
-data_root = r"C:\Users\Steven\Desktop\HiLineTrainingData"
+data_root = (root of directory)
 
 # Create a list of classes (subdirectories) in your data directory.
 classes = os.listdir(data_root)
