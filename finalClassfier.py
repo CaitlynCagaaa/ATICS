@@ -1,3 +1,14 @@
+""" module: finalClassifer
+    file: finalClassfier.py 
+    application: Automated toolbox inventory control system tool detection
+    language: python
+    computer: B360M PRO-VD (MS-7B53)
+    operating system: windows 11
+    course: CPT_S 422
+    team: Null Terminators
+    author: Steven Pixler
+    date: 4/25/24
+   """
 import torch
 import torchvision
 import torch.nn as nn
