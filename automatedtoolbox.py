@@ -23,11 +23,7 @@ import copy
 import os
 import requests
 import APIFunctions_1_1
-"""
-    name:
-    purpose:
-    operation:
-"""
+
 """ 
   name: create_error_records
   purpose: Make the error events and append them to the events list.
