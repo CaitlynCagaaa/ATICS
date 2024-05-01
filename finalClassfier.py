@@ -82,6 +82,17 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(resnet.parameters(), lr=0.001, momentum=0.9)
 
 # Training loop
+""" module: finalClassifer
+    file: train.py 
+    application: Training the classifier
+    language: python
+    computer: B360M PRO-VD (MS-7B53)
+    operating system: windows 11
+    course: CPT_S 422
+    team: Null Terminators
+    author: Steven Pixler
+    date: 4/25/24
+   """
 def train(net, trainloader, criterion, optimizer, num_epochs):
     for epoch in range(num_epochs):
         running_loss = 0.0  # Initialize the running loss
@@ -107,7 +118,17 @@ num_epochs = 20
 if __name__ == '__main__':
     multiprocessing.freeze_support()  # Ensure multiprocessing is properly initialized on Windows
     train(resnet, trainloader, criterion, optimizer, num_epochs)
-
+""" module: finalClassifer
+    file: evaluate.py 
+    application: Ensuring that the classifier is working properly
+    language: python
+    computer: B360M PRO-VD (MS-7B53)
+    operating system: windows 11
+    course: CPT_S 422
+    team: Null Terminators
+    author: Steven Pixler
+    date: 4/25/24
+   """
 def evaluate(net, testloader, num_correct_examples=5):
     correct = 0
     total = 0
