@@ -1,5 +1,5 @@
-""" module: additonalscript
-    file: additonalscript.py 
+""" module: additionalscript
+    file: additionalscript.py 
     application: Automated tool box inventory control system additional script
     language: python
     computer: ROG Flow Z13 GZ301ZE_GZ301ZE
