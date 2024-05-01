@@ -85,8 +85,8 @@ def print_records(events, toolboxID):
     name: retrieve_drawers
     purpose: Retrieve drawers that are in the given toolbox from the database.
     operation: Schema and jsonschema.validate are used to determine if it is an error message. If it is not an error message 
-    a validation error should occur and it will return the drawers list.
-    Use APIgatewayurl from Global_Config.yaml to call a api function that retrives drawers from the database or returns an error messsage. 
+        a validation error should occur and it will return the drawers list.
+        Use APIgatewayurl from Global_Config.yaml to call a api function that retrives drawers from the database or returns an error messsage. 
 """
 def retrieve_drawers(toolBoxID):
     schema = {
@@ -115,9 +115,9 @@ def retrieve_drawers(toolBoxID):
     name: retrieve_tools
     purpose: Retrieve the tools that are in the given drawer from the database.
     operation: Schema and jsonschema.validate are used to determine if it is an error message. If it is not an error message 
-    a validation error should occur and it will loop over tools list and add information necessary to track tools between frames, 
-    and then return the tools list. Use APIgatewayurl from Global_Config.yaml to call a api function that retrives
-     a list of the tools in the drawer or returns an error messsage.  
+        a validation error should occur and it will loop over tools list and add information necessary to track tools between frames, 
+        and then return the tools list. Use APIgatewayurl from Global_Config.yaml to call a api function that retrives
+        a list of the tools in the drawer or returns an error messsage.  
        
 """
 
@@ -191,7 +191,7 @@ def update_tools(oldTools, newTools, events,userID,test):
         validates that it is correct using jsonschem.validate, if the json correct it will end the loop and close the connection.
 """           
 def wait_for_signal(hostIP,port):  
-    print("enter signal")
+    #print("enter signal")
     schema = {
         "type" : "object",
         "properties" : {
@@ -209,7 +209,7 @@ def wait_for_signal(hostIP,port):
     s.listen(2)
     conn, addr = s.accept()
     with conn:
-        print(f"Connected by {addr}")
+        #print(f"Connected by {addr}")
         while True:
             conn.send(b"I am alive")
             data = conn.recv(1024)
@@ -236,7 +236,7 @@ def wait_for_signal(hostIP,port):
     non-blocking so its not waiting for a conncection instead of getting footage. 
 """
 def get_footage(rtspStream, savedFootage, s, startTimeStamp):
-        print("get footage")
+        #print("get footage")
         timestampFrame =startTimeStamp
         endTimeStamp =None
         data =None

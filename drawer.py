@@ -43,9 +43,9 @@ def find_drawer(frame, drawers, record):
     name:drawer_location
     purpose: Calculates the location of the drawer.
     operation: It calculates the location of the drawer by finding the difference between where the 
-    drawer symobl is siipse to be and where it was found. The starting X location and the starting Y location of the 
-    drawer should be the same no matter what, so just subtract the difference from the width and height. Will 
-    draw a box around the drawer if -record mode is on.   
+      drawer symobl is siipse to be and where it was found. The starting X location and the starting Y location of the 
+      drawer should be the same no matter what, so just subtract the difference from the width and height. Will 
+      draw a box around the drawer if -record mode is on.   
 """
 def drawer_location(modFrame, place, similarirty, drawer, template, record):
   xDiff = template["X"]-place[0][0]
@@ -68,13 +68,13 @@ def drawer_location(modFrame, place, similarirty, drawer, template, record):
 
 """
     name:is_open
-    purpose: Checksi f drawer is open or not.
+    purpose: Checks if drawer is open or not.
     operation: Loops over templates which should be the drawerSymbols ( which is given as a string by the database)
-    grab image of symbol from the webserver and see if it can be found above the threshold. IF it can be found then
-    check if it is greater than the the similarity scores of the other symbols, and if it is in the correct area( check that
-    it is not being confised for a different symbol on the same drawer). If those are true then set that symbol and its
-    location as what will be returned. If in -record mode draw a blue box around the symbol if found and write what
-    symbol it is, the similarity score it got and the y starting point for the location, on the frame.
+      grab image of symbol from the webserver and see if it can be found above the threshold. IF it can be found then
+      check if it is greater than the the similarity scores of the other symbols, and if it is in the correct area( check that
+      it is not being confised for a different symbol on the same drawer). If those are true then set that symbol and its
+      location as what will be returned. If in -record mode draw a blue box around the symbol if found and write what
+      symbol it is, the similarity score it got and the y starting point for the location, on the frame.
 """
 def is_open(frame,modFrame, templates,record):
   
@@ -183,9 +183,9 @@ def rotate_bound(image, angle):
     name:draw_temp
     purpose: Template match the template to the frame.
     operation: Loop over the degrees switching between ckockwise and counter clockwise, rotate by angle check that
-    template is not larger than frame, if it is crop it, try to template match if thier are still problems, ie ( one of 
-    the images was not retrieved properly) skip to next iteration of the loop return the best template match across all angles
-    if -record draw box around the best match"""
+      template is not larger than frame, if it is crop it, try to template match if thier are still problems, ie ( one of 
+      the images was not retrieved properly) skip to next iteration of the loop return the best template match across all angles
+      if -record draw box around the best match"""
 def draw_temp(template, frame,modFrame, w, h, color1, threshold, draw,degrees,degreeDiv):
     found = False
     place =None
