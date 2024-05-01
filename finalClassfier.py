@@ -82,17 +82,11 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(resnet.parameters(), lr=0.001, momentum=0.9)
 
 # Training loop
-""" module: finalClassifer
-    file: train.py 
-    application: Training the classifier
-    language: python
-    computer: B360M PRO-VD (MS-7B53)
-    operating system: windows 11
-    course: CPT_S 422
-    team: Null Terminators
-    author: Steven Pixler
-    date: 4/25/24
-   """
+"""
+    name:train
+    purpose: Train the classifier model
+    operation: Iterate over the code several times to prepare the configurations of the ONNX file  
+"""
 def train(net, trainloader, criterion, optimizer, num_epochs):
     for epoch in range(num_epochs):
         running_loss = 0.0  # Initialize the running loss
@@ -118,17 +112,11 @@ num_epochs = 20
 if __name__ == '__main__':
     multiprocessing.freeze_support()  # Ensure multiprocessing is properly initialized on Windows
     train(resnet, trainloader, criterion, optimizer, num_epochs)
-""" module: finalClassifer
-    file: evaluate.py 
-    application: Ensuring that the classifier is working properly
-    language: python
-    computer: B360M PRO-VD (MS-7B53)
-    operating system: windows 11
-    course: CPT_S 422
-    team: Null Terminators
-    author: Steven Pixler
-    date: 4/25/24
-   """
+"""
+    name:evaluate
+    purpose: Evaluate the output of the training module to ensure it is working properly.
+    operation: Compare the test images against a control image to ensure accuracy. Print out examples of properly labeled images as well as overall accuracy.
+"""
 def evaluate(net, testloader, num_correct_examples=5):
     correct = 0
     total = 0
